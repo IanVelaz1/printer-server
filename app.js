@@ -22,6 +22,8 @@ app.use(helmet());
 
 require('./routes/userRoutes.js')(app);
 require('./routes/loginRoutes')(app);
+require('./routes/notesRoutes')(app);
+
 
 app.listen(port,(error,success)=>{
   console.log(port);

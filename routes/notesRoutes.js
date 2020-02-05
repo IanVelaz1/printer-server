@@ -25,8 +25,26 @@ module.exports = (app) => {
       }
    });
 
-   app.post('/api/note',verificaToken,(req,res)=>{
-       
+   app.post('/api/note', verificaToken, (req, res) => {
+      const body = req.body;
+      Note.createNote(body, (error, success) => {
+
+         if (error) {
+            res.status(400).json({
+               ok: false,
+               err: error,
+               message: error.errors.message,
+               status:400
+            });
+         } else {
+            res.status(200).json({
+               ok: true,
+               status:200,
+               success
+            });
+         }
+
+      });
    });
 
 }

@@ -4,14 +4,15 @@ const notesSchema = new mongoose.Schema({
 
     fileName: {
         type: String,
-        default: ''
+        required:[true,'El nombre del archivo es necesario']
     },
     quantity: {
         type: Number,
-        default: 0
+        required: [true,'La cantidad es necesaria']
     },
     pieceMeasures: {
         type: Array,
+        required:[true, 'Las medidas son necesarias'],
         default: []
     },
     priceMeterSquares: {
@@ -29,6 +30,14 @@ const notesSchema = new mongoose.Schema({
     unitTotalPrice: {
         type:Number,
         default: 0
+    },
+    client:{
+        type:String,
+        required:[true,'El cliente es necesario']
+    },
+    date:{
+        type:Date,
+        default: new Date()
     }
 
 });
