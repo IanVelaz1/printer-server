@@ -20,10 +20,12 @@ module.exports = (app) => {
             }
 
             if (success.length === 0) {
+                console.log(success);
+                
                 return res.status(400).json({
                     ok: false,
                     status: 400,
-                    err: 'Usuario o contraseña incorrectos'
+                    err: 'Usuario o [contraseña] incorrectos'
                 });
             }
 
