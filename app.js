@@ -23,6 +23,7 @@ app.use(helmet());
 require('./routes/userRoutes.js')(app);
 require('./routes/loginRoutes')(app);
 require('./routes/notesRoutes')(app);
+require('./routes/clientsRoutes')(app);
 
 
 app.listen(port,(error,success)=>{

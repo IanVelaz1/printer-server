@@ -1,4 +1,6 @@
 const Note = require('../models/notesModel.js');
+const Client = require('../models/clientsModel.js');
+
 const {
    verificaToken
 } = require('../middlewares/authMiddleware');
