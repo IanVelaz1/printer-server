@@ -17,6 +17,11 @@ module.exports.getClientById = (id, callback) => {
     Client.findById(id, callback);
 }
 
+
+module.exports.findOneClient = (name,callback) => {
+    Client.findOne({name:name},callback);
+}
+
 module.exports.getClientByName = (name, callback) => {
     Client.find({
         name: {

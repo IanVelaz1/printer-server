@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const notesSchema = new mongoose.Schema({
 
-    fileName: {
+    /* fileName: {
         type: String,
         required: [true, 'El nombre del archivo es necesario']
     },
@@ -38,6 +38,31 @@ const notesSchema = new mongoose.Schema({
     noteDate: {
         type: String,
         required: [true, 'La fecha es necesaria']
+    },
+    total: {
+        type: Number,
+        required: true
+    },
+    observations: {
+        type: String,
+        required: true
+    } */
+
+    client: {
+        type: String,
+        required: true
+    },
+    items:{
+        type: Object,
+        required: true
+    },
+    totalSalePrice:{
+        type:Number,
+        required:true
+    },
+    noteDate:{
+        type:String,
+        required:true
     }
 
 });
@@ -46,6 +71,8 @@ const Note = module.exports = mongoose.model('notes', notesSchema);
 
 
 module.exports.createNote = (note, callback) => {
+    note['noteDate'] = new Date(note['noteDate']).toLocaleDateString();
+    debugger
     Note.create(note, callback);
 }
 
@@ -53,14 +80,38 @@ module.exports.findNoteById = (id, callback) => {
     Note.findById(id, callback);
 }
 
-module.exports.findNotes = (id, date, callback) => {
-    Note.find({
-        $or: [{
+module.exports.findNotes = (id, date, cl, callback) => {
+     let petitionObj = {
+         $and: [
+             
+         ]
+     };
+
+     if(id && id.length > 0){
+         petitionObj['$and'].push({
             _id: id
-        }, {
+          });
+     }
+
+     if(cl && cl.length > 0){
+        petitionObj['$and'].push({
+            client: {
+                $regex:cl,
+                $options:'/^/i'
+            }
+        });
+     }
+
+     if(date && date.length > 0){
+        petitionObj['$and'].push({
             noteDate: date
-        }]
-    }, callback);
+        });
+     }
+
+     console.log(petitionObj);
+     
+
+    Note.find(petitionObj,callback).hint({$natural:-1});
 }
 
 module.exports.editNote = (id, note, callback) => {
