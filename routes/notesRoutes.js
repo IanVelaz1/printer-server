@@ -12,7 +12,7 @@ module.exports = (app) => {
       let date = req.query.date || '';
       let client = req.query.client || '';
 
-      console.log(date);
+      console.log('gi');
       
 
       Note.findNotes(id, date, client,(error, success) => {
@@ -85,6 +85,8 @@ module.exports = (app) => {
 
    app.get('api/note/:id', verificaToken, (req, res) => {
       let id = req.params.id;
+      console.log(id);
+      
       Note.findNoteById(id, (error, success) => {
          if (error) {
             res.status(400).json({
@@ -101,10 +103,11 @@ module.exports = (app) => {
       });
    });
 
-   app.put('api/note/:id',(req,res)=>{
+   app.put('/api/note/:id',(req,res)=>{
       let id = req.params.id;
       let note = req.body;
-
+ 
+      
       Note.editNote(id,note,(error,success)=> {
          if (error) {
             res.status(400).json({

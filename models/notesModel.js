@@ -63,6 +63,14 @@ const notesSchema = new mongoose.Schema({
     noteDate:{
         type:String,
         required:true
+    },
+    amountPayed:{
+        type:Number,
+        required:true
+    },
+    status:{
+        type:String,
+        required:true
     }
 
 });
