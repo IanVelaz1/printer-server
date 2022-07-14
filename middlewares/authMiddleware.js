@@ -17,10 +17,6 @@ const verificaToken = (req,res,next) => {
     req.user = decoded.user;
     next();
   });
-
-
-
-
 }
 
 module.exports = {

@@ -27,6 +27,8 @@ require('./routes/userRoutes.js')(app);
 require('./routes/loginRoutes')(app);
 require('./routes/notesRoutes')(app);
 require('./routes/clientsRoutes')(app);
+require('./routes/reportsRoutes')(app);
+require('./routes/paymentRoutes')(app);
 
 app.use(express.static(__dirname + '/client-printer-app'));
 

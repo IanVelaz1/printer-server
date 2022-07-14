@@ -23,7 +23,7 @@ module.exports = (app) => {
         res.status(400).json({
           ok: false,
           status: 400,
-          err: error.errors.userMail.message
+          err: error
         });
       } else {
         let objUser = {

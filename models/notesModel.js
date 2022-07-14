@@ -61,7 +61,7 @@ const notesSchema = new mongoose.Schema({
         required:true
     },
     noteDate:{
-        type:String,
+        type:Date,
         required:true
     },
     amountPayed:{
@@ -70,22 +70,23 @@ const notesSchema = new mongoose.Schema({
     },
     status:{
         type:String,
-        required:true
+        default: 'Por pagar'
+    },
+    deliveryDate: {
+        type: Date
     }
-
 });
 
 const Note = module.exports = mongoose.model('notes', notesSchema);
 
+const NoteModel = mongoose.model('notes', notesSchema);
 
 module.exports.createNote = (note, callback) => {
-    note['noteDate'] = new Date(note['noteDate']).toLocaleDateString();
-    debugger
     Note.create(note, callback);
 }
 
 module.exports.findNoteById = (id, callback) => {
-    Note.findById(id, callback);
+    Note.findById(id, callback).lean();
 }
 
 module.exports.findNotes = (id, date, cl, callback) => {
@@ -94,6 +95,10 @@ module.exports.findNotes = (id, date, cl, callback) => {
              
          ]
      };
+
+     if(!id && !date && !cl) {
+        petitionObj = {};
+     }
 
      if(id && id.length > 0){
          petitionObj['$and'].push({
@@ -110,16 +115,16 @@ module.exports.findNotes = (id, date, cl, callback) => {
         });
      }
 
-     if(date && date.length > 0){
+     if(date){
         petitionObj['$and'].push({
-            noteDate: date
+            noteDate: { $gte: date }
         });
      }
 
      console.log(petitionObj);
      
 
-    Note.find(petitionObj,callback).hint({$natural:-1});
+    Note.find(petitionObj,callback).hint({$natural:-1}).sort({_id: -1});
 }
 
 module.exports.editNote = (id, note, callback) => {
@@ -128,4 +133,8 @@ module.exports.editNote = (id, note, callback) => {
 
 module.exports.deleteNote = (id, callback) => {
     Note.findByIdAndRemove(id, callback);
+}
+
+module.exports.NoteModel = {
+    NoteModel
 }
