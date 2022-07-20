@@ -4,10 +4,32 @@ const clientsSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true
+    },
+    email: String,
+    address: {
+        phone: String,
+        contact1: {
+            name: String,
+            phone: String
+        },
+        contact2: {
+            name: String,
+            phone: String
+        },
+        address: String
+    },
+    fiscalData: {
+        rfc: String,
+        fiscalAddress: String,
+        postalCode: String,
+        socialReason: String,
+        regime: String
     }
 });
 
 const Client = module.exports = mongoose.model('clients', clientsSchema);
+
+const ClientModel = mongoose.model('clients', clientsSchema);
 
 module.exports.saveClient = (client, callback) => {
     Client.create(client, callback);
@@ -29,4 +51,8 @@ module.exports.getClientByName = (name, callback) => {
             $options: '/^/i'
         }
     }, callback);
+}
+
+module.exports.ClientModel = {
+    ClientModel
 }

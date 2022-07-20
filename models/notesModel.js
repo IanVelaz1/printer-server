@@ -1,3 +1,4 @@
+const { ObjectId } = require('mongoose');
 const mongoose = require('mongoose');
 
 const notesSchema = new mongoose.Schema({
@@ -49,8 +50,9 @@ const notesSchema = new mongoose.Schema({
     } */
 
     client: {
-        type: String,
-        required: true
+        type: ObjectId,
+        required: true,
+        ref: 'clients'
     },
     items:{
         type: Object,
@@ -86,7 +88,7 @@ module.exports.createNote = (note, callback) => {
 }
 
 module.exports.findNoteById = (id, callback) => {
-    Note.findById(id, callback).lean();
+    Note.findById(id, callback).lean().populate('client');
 }
 
 module.exports.findNotes = (id, date, cl, callback) => {
@@ -124,7 +126,24 @@ module.exports.findNotes = (id, date, cl, callback) => {
      console.log(petitionObj);
      
 
-    Note.find(petitionObj,callback).hint({$natural:-1}).sort({_id: -1});
+    //Note.find(petitionObj,callback).hint({$natural:-1}).sort({_id: -1});
+
+    Note.aggregate([
+        {
+            $match: petitionObj
+        },
+        { 
+            $lookup: {
+                from: 'clients',
+                localField: 'client',
+                foreignField: '_id',
+                as: 'client'
+            }
+        },
+        {
+            sort: {_id: -1}
+        }
+    ], undefined, callback)
 }
 
 module.exports.editNote = (id, note, callback) => {
