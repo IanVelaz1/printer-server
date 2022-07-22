@@ -84,6 +84,7 @@ module.exports = (app) => {
     body.client = mongoose.Types.ObjectId(body.client);
     Note.createNote(body, async (error, success) => {
       if (error) {
+        debugger
         res.status(400).json({
           ok: false,
           err: error,
@@ -91,9 +92,6 @@ module.exports = (app) => {
           status: 400,
         });
       } else {
-        if (body.client) {
-          //  saveClient(body.client);
-        }
         await createInitialPayment(success._id, success.amountPayed);
         res.status(200).json({
           ok: true,

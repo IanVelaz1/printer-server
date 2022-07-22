@@ -35,6 +35,7 @@ const checkIfPaymentIsComplete = async (paymentId, paymentAmount) => {
     for (const payment of paymentsMade) {
       total += payment.amount;
     }
+
     updatedNote = await Note.findOneAndUpdate(
       { _id: id },
       { amountPayed: total },
