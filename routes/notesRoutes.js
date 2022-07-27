@@ -25,7 +25,7 @@ module.exports = (app) => {
         splittedDate[0],
         Number(splittedDate[2]) - 1,
         splittedDate[1]
-      ).toISOString();
+      );
       date = queryDate;
     }
 
@@ -38,13 +38,14 @@ module.exports = (app) => {
     }
 
     if (client) {
-      queryObj["client"]["name"] = {
-        $regex: cl,
-        $options: "/^/i",
-      };
+      queryObj["client"] = mongoose.Types.ObjectId(client)
     }
+
     try {
       const notesFound = await NotesModel.aggregate([
+        {
+          $match: queryObj,
+        },
         {
           $lookup: {
             from: "clients",
@@ -61,9 +62,6 @@ module.exports = (app) => {
         },
         {
           $sort: { _id: -1 },
-        },
-        {
-          $match: queryObj,
         },
       ]);
       res.status(200).json({
