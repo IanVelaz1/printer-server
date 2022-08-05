@@ -1,5 +1,6 @@
 const NotesModel = require('../models/notesModel');
 const mongoose = require('mongoose');
+const {PaymentModel} = require('../models/paymentsModel');
 
 const copyNote = async (req, res) => {
   let { originalId } = req.params;
@@ -20,11 +21,25 @@ const copyNote = async (req, res) => {
       })
     }
     const createdNote = await NotesModel.create(note);
+    await createInitialPayment(note._id, 0);
     return res.status(200).json(createdNote);
   } catch(error) {
     return res.status(500).json(error);
   }
 }
+
+const createInitialPayment = async (noteId, initialAmount) => {
+  try {
+    const createdPayment = await PaymentModel.create({
+      note: noteId,
+      amount: initialAmount,
+    });
+    return createdPayment;
+  } catch (error) {
+    debugger
+    return error;
+  }
+};
 
 module.exports = {
   copyNote
