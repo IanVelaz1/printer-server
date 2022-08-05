@@ -30,6 +30,7 @@ require('./routes/clientsRoutes')(app);
 require('./routes/reportsRoutes')(app);
 require('./routes/paymentRoutes')(app);
 require('./routes/clientsV2Routes')(app);
+require('./routes/notesV2Routes')(app);
 
 app.use(express.static(__dirname + '/client-printer-app'));
 
