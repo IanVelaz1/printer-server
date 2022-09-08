@@ -104,6 +104,10 @@ const generateReportsByDates = async (req, res) => {
     };
   }
 
+  if(queryObject.status === "Cualquiera") {
+    delete queryObject.status;
+  }
+
   try {
     const foundNotes = await NotesModel.find(queryObject).lean();
 
@@ -150,6 +154,7 @@ const generateReportsByDates = async (req, res) => {
     
     res.status(200).json(responseObj);
   } catch (error) {
+    debugger
     res.status(500).json(error);
   }
 };
