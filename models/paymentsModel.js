@@ -12,6 +12,13 @@ const PaymentsSchema = new mongoose.Schema({
   amount: {
     type: Number,
     required: true
+  },
+  paymentType: {
+    type: String
+  },
+  approvalNotes: {
+    type: String,
+    required: false
   }
 })
 
