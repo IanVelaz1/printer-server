@@ -48,7 +48,7 @@ module.exports.getClientByName = (name, callback) => {
     Client.find({
         name: {
             $regex: name,
-            $options: '/^/i'
+            $options: 'i'
         }
     }, callback);
 }
